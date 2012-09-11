@@ -1,0 +1,19 @@
+{
+  "name": "g-database",
+  "version": "0.0.1",
+  "description": "Gestion de la connection à la base de données. Utilise nano.",
+  "main": "index.js",
+  "repository": {
+    "type":         "svn",
+    "url":          "svn+ssh://www.gammadia-svn.net/var/svn/gammadia/node_modules/g-database/trunk/"
+  },
+  "publishConfig": {
+    "registry":     "http://npm.gammadia.ch/"
+  },
+  "engines": {
+    "node":         ">=0.8.0"
+  },
+  "dependencies": {
+    "nano":         "3.1.x"
+  }
+}
