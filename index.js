@@ -1,4 +1,4 @@
-/*jslint node: true */
+/*jslint node: true, nomen: true */
 module.exports = function (app) {
 	'use strict';
 
@@ -15,12 +15,15 @@ module.exports = function (app) {
 			if (args[0].err === null) {
 				logger.debug('[%s] - %s', args[0].headers['status-code'], args[0].body._id);
 			}
+		},
+		request_options: {
+			'pool.maxSockets': app.config.get('db:sockets')
 		}
 	});
 
 	if (db instanceof Error) {
 		app.logger.fatal('Erreur lors de la connection à la base de données %s', app.config.get('db:url'));
-		callback(new Error({code: 'DATABASE_CONNECT_FAIL'}));
+		return new Error({code: 'DATABASE_CONNECT_FAIL'});
 	}
 
 	app.logger.info('Connecté à la base de données %s', app.config.get('db:url'));
