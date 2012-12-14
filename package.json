@@ -1,6 +1,6 @@
 {
   "name": "g-database",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Gestion de la connection à la base de données. Utilise nano.",
   "main": "index.js",
   "repository": {
@@ -14,6 +14,6 @@
     "node":         ">=0.8.0"
   },
   "dependencies": {
-    "nano":         "3.1.x"
+    "nano":         "3.3.x"
   }
 }
