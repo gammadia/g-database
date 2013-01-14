@@ -4,7 +4,15 @@ module.exports = function (app) {
 
 	var logger = app.logger && app.logger.child({component: 'Database'}),
 		nano = require('nano'),
-		db = null;
+		db = null,
+		Agentkeepalive = require('agentkeepalive'),
+		agent = null;
+
+	agent = new Agentkeepalive({
+		maxSockets: app.config.get('db:sockets') || 32,
+		maxKeepAliveRequests: 0,
+		maxKeepAliveTime: 30000
+	});
 
 	db = nano({
 		url:	app.config.get('db:url'),
@@ -21,8 +29,8 @@ module.exports = function (app) {
 				logger.debug('[%s] - %s', args[0].headers['status-code'], args[0].body._id);
 			}
 		},
-		request_options: {
-			'pool.maxSockets': app.config.get('db:sockets')
+		request_defaults: {
+			agent: agent
 		}
 	});
 
