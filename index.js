@@ -10,19 +10,20 @@ module.exports = function (app) {
             maxKeepAliveRequests: 0,
             maxKeepAliveTime: 30000
         }),
-        db = nano({
+        db;
+
+    db = nano({
             url:	app.config.get('db:url'),
-            log:	function (id, args) {
+            log:	function (event) {
                 if (!logger) {
                     return;
                 }
-
-                if (args[0].method) {
-                    logger.debug('%s - %s', args[0].method, args[0].uri);
+                if (event.method) {
+                    logger.debug('%s - %s', event.method, event.uri);
                 }
 
-                if (args[0].err === null) {
-                    logger.debug('[%s] - %s', args[0].headers['status-code'], args[0].body._id);
+                if (event.err === null) {
+                    logger.debug('[%s] - %s', event.headers.statusCode, event.headers.uri);
                 }
             },
             request_defaults: {
