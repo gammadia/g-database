@@ -15,6 +15,6 @@
   },
   "dependencies": {
     "nano":         "6.1.4",
-    "agentkeepalive": "2.2.0"
+    "agentkeepalive": "*"
   }
 }
