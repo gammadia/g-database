@@ -16,7 +16,7 @@ module.exports = function (app) {
 
 	db = nano({
 		url:	app.config.get('db:url'),
-		log:	function (id, args) {
+		log:	function (args) {
 			if (!logger) {
 				return;
 			}
