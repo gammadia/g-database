@@ -21,13 +21,17 @@ module.exports = function (app) {
 				return;
 			}
 
-			if (args[0].method) {
-				logger.debug('%s - %s', args[0].method, args[0].uri);
+			if (args && args.method) {
+				logger.debug('%s - %s', args.method, args.uri);
 			}
 
-			if (args[0].err === null) {
-				logger.debug('[%s] - %s', args[0].headers['status-code'], args[0].body._id);
+			if (args && args.err === null && args.body._id) {
+				logger.debug('[%s] - %s', args.headers.statusCode, args.body._id);
 			}
+
+            if (args && args.err && args.err !== null) {
+                logger.error('[%s] - %s', args.headers.statusCode, args.err);
+            }
 		},
 		request_defaults: {
 			agent: agent
