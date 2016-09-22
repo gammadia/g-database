@@ -1,7 +1,7 @@
 {
   "name": "g-database",
-  "version": "1.0.0",
-  "description": "Gestion de la connection à la base de données. Utilise nano.",
+  "version": "2.0.0",
+  "description": "Gestion de la connection à la base de données CouchBase",
   "main": "index.js",
   "repository": {
     "type":         "git",
@@ -14,7 +14,7 @@
     "node":         ">=0.8.0"
   },
   "dependencies": {
-    "nano":         "4.2.x",
+    "couchbase": "2.2.2",
     "agentkeepalive": "0.1.x"
   }
 }
