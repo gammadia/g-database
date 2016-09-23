@@ -7,16 +7,16 @@ module.exports = function (app) {
         cluster     = null,
         bucket      = null,
         database    = {
-            set: function (host, bucketName) {
+            init: function (host, bucketName) {
                 cluster = new couchbase.Cluster('couchbase://' + host);
                 bucket = cluster.openBucket(bucketName, function (err) {
                     if (err) {
                         if (logger) {
-                            app.logger.fatal('Erreur lors de la connection à la base de données %s', app.config.get('db:url'));
+                            app.logger.fatal('Erreur lors de la connection à la base de données %s', host);
                         }
                         return new Error({code: 'DATABASE_CONNECT_FAIL'});
                     } else {
-                        app.logger.info('Connecté à la base de données %s', app.config.get('db:url'));
+                        app.logger.info('Connecté à la base de données %s', host);
                     }
                 });
                 return bucket;
