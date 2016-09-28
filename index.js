@@ -4,6 +4,7 @@ module.exports = function (app) {
 
 	var logger      = app.logger && app.logger.child({component: 'Database'}),
         couchbase   = require('couchbase'),
+        crypto      = require('crypto-js'),
         cluster     = null,
         bucket      = null,
         database    = {
@@ -26,6 +27,13 @@ module.exports = function (app) {
             },
             getViewQuery: function () {
                 return couchbase.ViewQuery;
+            },
+            getKey: function () { 
+                var date = (new Date()).valueOf().toString(),
+                    random = Math.random().toString(),
+                    secret = 'mooncareapi';
+
+                return crypto.HmacSHA1(date + random, secret).toString(crypto.enc.Hex);
             }
         };
     return database;
