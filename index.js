@@ -28,10 +28,10 @@ module.exports = function (app) {
             getViewQuery: function () {
                 return couchbase.ViewQuery;
             },
-            getKey: function () { 
+            getKey: function (secret) {
                 var date = (new Date()).valueOf().toString(),
                     random = Math.random().toString(),
-                    secret = 'mooncareapi';
+                    secret = secret || '';
 
                 return crypto.HmacSHA1(date + random, secret).toString(crypto.enc.Hex);
             }
