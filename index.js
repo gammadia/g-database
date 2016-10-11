@@ -16,9 +16,8 @@ module.exports = function (app) {
                             app.logger.fatal('Erreur lors de la connection à la base de données %s', host);
                         }
                         return new Error({code: 'DATABASE_CONNECT_FAIL'});
-                    } else {
-                        app.logger.info('Connecté à la base de données %s', host);
                     }
+                    app.logger.info('Connecté à la base de données %s', host);
                 });
                 return bucket;
             },
