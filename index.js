@@ -27,6 +27,12 @@ module.exports = function (app) {
             getViewQuery: function () {
                 return couchbase.ViewQuery;
             },
+            getN1qlQuery: function () {
+                return couchbase.N1qlQuery;
+            },
+            getSpatialQuery: function () {
+                return couchbase.SpatialQuery;
+            },
             getKey: function (secret) {
                 var date = (new Date()).valueOf().toString(),
                     random = Math.random().toString(),
