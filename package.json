@@ -1,11 +1,11 @@
 {
   "name": "g-database",
-  "version": "0.0.5",
-  "description": "Gestion de la connection à la base de données. Utilise nano.",
+  "version": "2.0.0",
+  "description": "Gestion de la connection à la base de données CouchBase",
   "main": "index.js",
   "repository": {
-    "type":         "svn",
-    "url":          "svn+ssh://www.gammadia-svn.net/var/svn/gammadia/node_modules/g-database/trunk/"
+    "type":         "git",
+    "url":          "ssh://git@stash.gammadia.ch:7999/nodmod/g-database.git"
   },
   "publishConfig": {
     "registry":     "http://npm:uOe5y3Vw1q2n6n43XD41734P854Ow5@npm.gammadia.ch:5984/registry/_design/app/_rewrite/"
@@ -14,7 +14,7 @@
     "node":         ">=0.8.0"
   },
   "dependencies": {
-    "nano":         "3.3.x",
+    "couchbase": "2.2.2",
     "agentkeepalive": "0.1.x"
   }
 }
