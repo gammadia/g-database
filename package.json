@@ -11,10 +11,10 @@
     "registry":     "http://npm:uOe5y3Vw1q2n6n43XD41734P854Ow5@npm.gammadia.ch:5984/registry/_design/app/_rewrite/"
   },
   "engines": {
-    "node":         ">=0.8.0"
+    "node":         ">8.9.x"
   },
   "dependencies": {
-    "couchbase": "2.2.2",
+    "couchbase": "2.4.4",
     "agentkeepalive": "0.1.x"
   }
 }
