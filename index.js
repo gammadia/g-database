@@ -15,11 +15,13 @@ module.exports = function (app) {
                     if (err) {
                         if (logger) {
                             app.logger.fatal('Erreur lors de la connection à la base de données %s', host);
+                            app.logger.fatal(err);
                         }
                         return new Error({code: 'DATABASE_CONNECT_FAIL'});
                     }
                     app.logger.info('Connecté à la base de données %s', host);
                 });
+                bucket.connectionTimeout = 10000;
                 return bucket;
             },
             get: function () {
