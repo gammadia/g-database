@@ -8,9 +8,10 @@ module.exports = function (app) {
         cluster     = null,
         bucket      = null,
         database    = {
-            init: function (host, bucketName, bucketSecret) {
+            init: function (host, bucketName, username, password) {
                 cluster = new couchbase.Cluster('couchbase://' + host);
-                bucket = cluster.openBucket(bucketName, bucketSecret, function (err) {
+                cluster.authenticate(username, password);
+                bucket = cluster.openBucket(bucketName, function (err) {
                     if (err) {
                         if (logger) {
                             app.logger.fatal('Erreur lors de la connection à la base de données %s', host);
