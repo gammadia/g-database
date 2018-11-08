@@ -21,8 +21,6 @@ module.exports = function (app) {
                     }
                     app.logger.info('Connecté à la base de données %s', host);
                 });
-                bucket.connectionTimeout = 10000;
-                return bucket;
             },
             get: function () {
                 return bucket;
