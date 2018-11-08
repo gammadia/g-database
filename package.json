@@ -4,17 +4,16 @@
   "description": "Gestion de la connection à la base de données CouchBase",
   "main": "index.js",
   "repository": {
-    "type":         "git",
-    "url":          "ssh://git@stash.gammadia.ch:7999/nodmod/g-database.git"
+    "type": "git",
+    "url": "ssh://git@stash.gammadia.ch:7999/nodmod/g-database.git"
   },
-  "publishConfig": {
-    "registry":     "http://npm:uOe5y3Vw1q2n6n43XD41734P854Ow5@npm.gammadia.ch:5984/registry/_design/app/_rewrite/"
-  },
+  "license": "UNLICENSED",
+  "private": true,
   "engines": {
-    "node":         ">8.10.x"
+    "node": ">= 10.13.10"
   },
   "dependencies": {
-    "couchbase": "2.4.4",
-    "agentkeepalive": "0.1.x"
+    "couchbase": "^2.6.0",
+    "crypto-js": "^3.1.9-1"
   }
 }
