@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "ssh://git@stash.gammadia.ch:7999/nodmod/g-database.git"
+    "url": "https://github.com/gammadia/g-database.git"
   },
   "license": "UNLICENSED",
   "private": true,

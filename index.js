@@ -14,8 +14,8 @@ module.exports = function (app) {
                 bucket = cluster.openBucket(bucketName, function (err) {
                     if (err) {
                         if (logger) {
-                            app.logger.fatal('Erreur lors de la connection à la base de données %s', host);
-                            app.logger.fatal(err);
+                            app.logger.error('Erreur lors de la connection à la base de données %s', host);
+                            app.logger.error(err);
                         }
                         return new Error({code: 'DATABASE_CONNECT_FAIL'});
                     }
