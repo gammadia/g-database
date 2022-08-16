@@ -2,8 +2,8 @@
 module.exports = function (app) {
 	'use strict';
 
-	var logger      = app.logger && app.logger.child({component: 'Database'}),
-        couchbase   = require('couchbase'),
+  var logger      = app.logger && app.logger.child({component: 'Database'}),
+    couchbase   = require('couchbase'),
         crypto      = require('crypto-js'),
         cluster     = null,
         bucket      = null,
@@ -11,16 +11,30 @@ module.exports = function (app) {
             init: function (host, bucketName, username, password) {
                 cluster = new couchbase.Cluster('couchbase://' + host);
                 cluster.authenticate(username, password);
-                bucket = cluster.openBucket(bucketName, function (err) {
-                    if (err) {
-                        if (logger) {
-                            app.logger.error('Erreur lors de la connection à la base de données %s', host);
-                            app.logger.error(err);
-                        }
-                        return new Error({code: 'DATABASE_CONNECT_FAIL'});
-                    }
-                    app.logger.info('Connecté à la base de données %s', host);
-                });
+
+                function connect(cluster, bucketName) {
+                  return new Promise((resolve, reject) => {
+                    bucket = cluster.openBucket(bucketName, function (err) {
+                      if (err) {
+                        reject(err)
+                      }
+                    });
+
+                    resolve(bucket)
+                  });
+                }
+
+                function establishConnection() {
+                  var c = connect(cluster, bucketName);
+                  c.then(bucket => app.logger.info("Connected to the database"))
+                    .catch(err => {
+                      app.logger.error(err)
+
+                      setTimeout(establishConnection, 2000)
+                    });
+                }
+
+                establishConnection();
             },
             get: function () {
                 return bucket;
