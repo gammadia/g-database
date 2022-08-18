@@ -1,4 +1,5 @@
 /*jslint node: true, nomen: true, white: true */
+const couchbase = require("couchbase");
 module.exports = function (app) {
 	'use strict';
 
@@ -12,26 +13,36 @@ module.exports = function (app) {
                 cluster = new couchbase.Cluster('couchbase://' + host);
                 cluster.authenticate(username, password);
 
-                function connect(cluster, bucketName) {
+                function connect() {
                   return new Promise((resolve, reject) => {
-                    bucket = cluster.openBucket(bucketName, function (err) {
+                    let b = cluster.openBucket(bucketName, function (err) {
                       if (err) {
-                        reject(err)
+                        return reject(err)
                       }
-                    });
 
-                    resolve(bucket)
+                      resolve(b)
+                    });
                   });
                 }
 
+                let retry = 0;
                 function establishConnection() {
-                  var c = connect(cluster, bucketName);
-                  c.then(bucket => app.logger.info("Connected to the database"))
-                    .catch(err => {
-                      app.logger.error(err)
+                  if (retry > 10) {
+                    app.logger.error("Unable to connect to the database")
 
-                      setTimeout(establishConnection, 2000)
-                    });
+                    return
+                  }
+                  const c = connect();
+                  c.then(b => {
+                    app.logger.info("Connected to the database")
+
+                    bucket = b
+                  }).catch(err => {
+                    app.logger.error(err)
+
+                    retry++;
+                    setTimeout(establishConnection, 2000)
+                  });
                 }
 
                 establishConnection();
