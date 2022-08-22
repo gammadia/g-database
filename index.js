@@ -1,5 +1,4 @@
 /*jslint node: true, nomen: true, white: true */
-const couchbase = require("couchbase");
 module.exports = function (app) {
   'use strict';
 
@@ -7,26 +6,30 @@ module.exports = function (app) {
     couchbase = require('couchbase'),
     crypto = require('crypto-js'),
     cluster = null,
-    bucket = null,
-    retry = 0;
+    bucket = null;
 
   return {
     init: function (host, bucketName, username, password) {
-      if (retry > 10) {
-        logger.error("Unable to connect to the database.")
-        return;
-      }
-
       cluster = new couchbase.Cluster('couchbase://' + host);
       cluster.authenticate(username, password);
-      bucket = cluster.openBucket(bucketName, function (err) {
-        if (err) {
-          retry++;
-          setTimeout(() => {
-            this.init(host, bucketName, username, password)
-          }, 2000);
+
+      let retry = 0;
+      function connect() {
+        if (retry > 10) {
+          logger.error("Unable to connect to the database.")
+          return;
         }
-      });
+
+        return cluster.openBucket(bucketName, function (err) {
+          if (err) {
+            logger.error(err)
+            retry++;
+            setTimeout(connect, 2000);
+          }
+        });
+      }
+
+      bucket = connect()
     },
     get: function () {
       return cluster;
