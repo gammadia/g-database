@@ -1,4 +1,7 @@
-/*jslint node: true, nomen: true, white: true */
+'use strict';
+
+const Bucket = require("couchbase/lib/bucket")
+
 module.exports = function (app) {
   'use strict';
 
@@ -9,27 +12,25 @@ module.exports = function (app) {
     bucket = null;
 
   return {
+    /**
+     * Initialize the connection to the database.
+     *
+     * @param {string} host
+     * @param {string} bucketName
+     * @param {string} username
+     * @param {string} password
+     *
+     * @returns {Bucket}
+     */
     init: function (host, bucketName, username, password) {
       cluster = new couchbase.Cluster('couchbase://' + host);
       cluster.authenticate(username, password);
 
-      let retry = 0;
-      function connect() {
-        if (retry > 10) {
-          logger.error("Unable to connect to the database.")
-          return;
+      bucket = cluster.openBucket(bucketName, function (err) {
+        if (err) {
+          logger.error(err)
         }
-
-        return cluster.openBucket(bucketName, function (err) {
-          if (err) {
-            logger.error(err)
-            retry++;
-            setTimeout(connect, 2000);
-          }
-        });
-      }
-
-      bucket = connect()
+      });
     },
     get: function () {
       return cluster;
