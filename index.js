@@ -31,6 +31,8 @@ module.exports = function (app) {
           logger.error(err)
         }
       });
+
+      return bucket;
     },
     get: function () {
       return cluster;
