@@ -35,7 +35,7 @@ module.exports = function (app) {
       return bucket;
     },
     get: function () {
-      return cluster;
+      return bucket;
     },
     getViewQuery: function () {
       return couchbase.ViewQuery;
