@@ -20,19 +20,21 @@ module.exports = function (app) {
      * @param {string} username
      * @param {string} password
      *
-     * @returns {Bucket}
+     * @returns {Promise}
      */
     init: function (host, bucketName, username, password) {
       cluster = new couchbase.Cluster('couchbase://' + host);
       cluster.authenticate(username, password);
 
-      bucket = cluster.openBucket(bucketName, function (err) {
-        if (err) {
-          logger.error(err)
-        }
+      return new Promise((resolve, reject) => {
+        bucket = cluster.openBucket(bucketName, function (err) {
+          if (err) {
+            reject(err)
+          } else {
+            resolve(bucket)
+          }
+        });
       });
-
-      return bucket;
     },
     get: function () {
       return bucket;
