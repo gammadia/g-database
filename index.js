@@ -27,11 +27,12 @@ module.exports = function (app) {
       cluster.authenticate(username, password);
 
       return new Promise((resolve, reject) => {
-        bucket = cluster.openBucket(bucketName, function (err) {
+        let b = cluster.openBucket(bucketName, function (err) {
           if (err) {
-            reject(err)
+            reject(err);
           } else {
-            resolve(bucket)
+            bucket = b;
+            resolve(bucket);
           }
         });
       });
@@ -48,12 +49,16 @@ module.exports = function (app) {
     getSpatialQuery: function () {
       return couchbase.SpatialQuery;
     },
+    /**
+     * @param {string} secret
+     * @returns {string}
+     */
     getKey: function (secret) {
-      var date = (new Date()).valueOf().toString(),
+      const date = (new Date()).valueOf().toString(),
         random = Math.random().toString(),
-        secret = secret || '';
+        s = secret || '';
 
-      return crypto.HmacSHA256(date + random, secret).toString(crypto.enc.Hex);
+      return crypto.HmacSHA256(date + random, s).toString(crypto.enc.Hex);
     }
   };
 };
