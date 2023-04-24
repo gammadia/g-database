@@ -23,11 +23,13 @@ module.exports = function (app) {
      * @returns {Promise}
      */
     init: function (host, bucketName, username, password) {
-      cluster = new couchbase.Cluster('couchbase://' + host);
-      cluster.authenticate(username, password);
+      cluster = new couchbase.Cluster('couchbase://' + host, {
+        username: username,
+        password: password
+      });
 
       return new Promise((resolve, reject) => {
-        let b = cluster.openBucket(bucketName, function (err) {
+        let b = cluster.bucket(bucketName, function (err) {
           if (err) {
             reject(err);
           } else {
