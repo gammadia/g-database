@@ -1,6 +1,6 @@
 'use strict';
 
-const Bucket = require("couchbase/lib/bucket")
+const couchbase = require('couchbase')
 
 module.exports = function (app) {
   'use strict';
@@ -22,22 +22,18 @@ module.exports = function (app) {
      *
      * @returns {Promise}
      */
-    init: function (host, bucketName, username, password) {
-      cluster = new couchbase.Cluster('couchbase://' + host, {
+    init: async function (host, bucketName, username, password) {
+      cluster = await couchbase.connect('couchbase://' + host, {
         username: username,
         password: password
       });
 
-      return new Promise((resolve, reject) => {
-        let b = cluster.bucket(bucketName, function (err) {
-          if (err) {
-            reject(err);
-          } else {
-            bucket = b;
-            resolve(bucket);
-          }
-        });
-      });
+      bucket = cluster.bucket(bucketName);
+
+      return bucket;
+    },
+    close: function (callback) {
+      cluster.close(callback)
     },
     get: function () {
       return bucket;
