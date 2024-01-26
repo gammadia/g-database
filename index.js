@@ -1,17 +1,29 @@
 'use strict';
 
-const couchbase = require('couchbase')
-
+const {ViewScanConsistency, ViewOrdering} = require("couchbase/dist/viewtypes");
+const couchbase = require("couchbase");
 module.exports = function (app) {
   'use strict';
 
-  let logger = app.logger && app.logger.child({component: 'Database'}),
-    couchbase = require('couchbase'),
-    crypto = require('crypto-js'),
+  const couchbase = require('couchbase');
+
+  let crypto = require('crypto-js'),
     cluster = null,
     bucket = null;
 
   return {
+    ViewScanConsistency: {
+      Update: {
+        BEFORE: couchbase.ViewScanConsistency.RequestPlus,
+        AFTER: couchbase.ViewScanConsistency.UpdateAfter,
+        NONE: couchbase.ViewScanConsistency.NotBounded
+      }
+    },
+    ViewOrdering: {
+      Ascending: couchbase.ViewOrdering.Ascending,
+      Descending: couchbase.ViewOrdering.Descending
+    },
+
     /**
      * Initialize the connection to the database.
      *
@@ -30,22 +42,13 @@ module.exports = function (app) {
 
       bucket = cluster.bucket(bucketName);
 
-      return bucket;
+      return
     },
     close: function (callback) {
       cluster.close(callback)
     },
     get: function () {
       return bucket;
-    },
-    getViewQuery: function () {
-      return couchbase.ViewQuery;
-    },
-    getN1qlQuery: function () {
-      return couchbase.N1qlQuery;
-    },
-    getSpatialQuery: function () {
-      return couchbase.SpatialQuery;
     },
     /**
      * @param {string} secret
