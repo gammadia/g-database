@@ -1,6 +1,6 @@
 {
   "name": "g-database",
-  "version": "2.3.0",
+  "version": "4.2",
   "description": "Gestion de la connection à la base de données CouchBase",
   "main": "index.js",
   "repository": {
@@ -10,10 +10,9 @@
   "license": "UNLICENSED",
   "private": true,
   "engines": {
-    "node": ">= 10.13.10"
+    "node": ">= 20.10.0"
   },
   "dependencies": {
-    "couchbase": "^3.2.0",
-    "crypto-js": "^3.1.9-1"
+    "couchbase": "^4.2.9"
   }
 }
