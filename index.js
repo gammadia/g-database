@@ -8,18 +8,19 @@ module.exports = function (app) {
         cluster     = null,
         bucket      = null,
         database    = {
-            init: function (host, bucketName) {
+            init: function (host, bucketName, username, password) {
                 cluster = new couchbase.Cluster('couchbase://' + host);
+                cluster.authenticate(username, password);
                 bucket = cluster.openBucket(bucketName, function (err) {
                     if (err) {
                         if (logger) {
-                            app.logger.fatal('Erreur lors de la connection à la base de données %s', host);
+                            app.logger.error('Erreur lors de la connection à la base de données %s', host);
+                            app.logger.error(err);
                         }
                         return new Error({code: 'DATABASE_CONNECT_FAIL'});
                     }
                     app.logger.info('Connecté à la base de données %s', host);
                 });
-                return bucket;
             },
             get: function () {
                 return bucket;
@@ -38,7 +39,7 @@ module.exports = function (app) {
                     random = Math.random().toString(),
                     secret = secret || '';
 
-                return crypto.HmacSHA1(date + random, secret).toString(crypto.enc.Hex);
+                return crypto.HmacSHA256(date + random, secret).toString(crypto.enc.Hex);
             }
         };
     return database;
