@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/gammadia/g-database.git"
+    "url": "https://github.com/tipee/g-database.git"
   },
   "license": "UNLICENSED",
   "private": true,
