@@ -1,6 +1,6 @@
 {
   "name": "g-database",
-  "version": "4.2",
+  "version": "4.2.9",
   "description": "Gestion de la connection à la base de données CouchBase",
   "main": "index.js",
   "repository": {
