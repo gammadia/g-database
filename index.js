@@ -139,7 +139,7 @@ class ViewQuery {
 
   custom(options) {
       if (options.group_level !== undefined) {
-        this._options.group_level = options.group_level;
+        this._options.groupLevel = options.group_level;
       }
 
       if (options.startkey !== undefined) {
