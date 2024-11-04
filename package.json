@@ -1,6 +1,6 @@
 {
   "name": "g-database",
-  "version": "4.2.11",
+  "version": "4.2.0",
   "description": "Gestion de la connection à la base de données CouchBase",
   "main": "index.js",
   "repository": {
@@ -13,6 +13,6 @@
     "node": ">= 20.10.0"
   },
   "dependencies": {
-    "couchbase": "^4.2.11"
+    "couchbase": "4.2.11"
   }
 }
