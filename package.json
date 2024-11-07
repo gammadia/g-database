@@ -13,6 +13,6 @@
     "node": ">= 20.10.0"
   },
   "dependencies": {
-    "couchbase": "4.4"
+    "couchbase": "4.4.0"
   }
 }
